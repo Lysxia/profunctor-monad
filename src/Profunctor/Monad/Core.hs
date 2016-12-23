@@ -12,6 +12,7 @@ module Profunctor.Monad.Core
     Functor1
   , Applicative1
   , Monad1
+  , Alternative1
   , Profunctor
 
   -- * 
@@ -19,6 +20,7 @@ module Profunctor.Monad.Core
   , Functor
   , Applicative
   , Monad
+  , Alternative
 
   -- * Constraints
 
@@ -55,3 +57,11 @@ type Applicative1 p = (Functor1 p, ForallF Applicative p)
 -- The quantified super-class instance is
 -- explicitly added, since the type system currently can not deduce it.
 type Monad1 p = (Applicative1 p, ForallF Monad p)
+
+-- | Constraint equivalent to
+--
+-- > forall a. Alternative (p a)
+--
+-- The quantified super-class instance is
+-- explicitly added, since the type system currently can not deduce it.
+type Alternative1 p = (Applicative1 p, ForallF Alternative p)
