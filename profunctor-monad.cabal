@@ -26,6 +26,19 @@ library
     profunctors
   default-language:    Haskell2010
 
+test-suite hashcons
+  type: exitcode-stdio-1.0
+  main-is: hashcons.hs
+  hs-source-dirs: example
+  build-depends:
+    base,
+    unordered-containers,
+    hashable,
+    mtl,
+    transformers,
+    profunctor-monad
+  default-language: Haskell2010
+
 source-repository head
   type:     git
   location: https://github.com/Lysxia/profunctor-monad
