@@ -18,7 +18,8 @@ library
   exposed-modules:
     Profunctor.Monad,
     Profunctor.Monad.Core,
-    Profunctor.Monad.Combinators
+    Profunctor.Monad.Combinators,
+    Profunctor.Monad.Contravariant
   build-depends:
     base >= 4.9 && < 4.10,
     constraints,
