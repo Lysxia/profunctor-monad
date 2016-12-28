@@ -19,7 +19,7 @@ import qualified Data.HashMap.Lazy as H
 import GHC.Generics
 
 import Profunctor.Monad hiding ((=.))
-import Profunctor.Monad.Contravariant
+import Profunctor.Monad
 
 -- * Hashconsing
 

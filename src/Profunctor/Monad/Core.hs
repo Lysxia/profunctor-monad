@@ -13,7 +13,6 @@ module Profunctor.Monad.Core
   , Applicative1
   , Monad1
   , Alternative1
-  , Profunctor
 
   -- * 
 
@@ -33,7 +32,6 @@ module Profunctor.Monad.Core
 import Control.Applicative
 import Control.Monad
 
-import Data.Profunctor
 import Data.Constraint
 import Data.Constraint.Forall
 

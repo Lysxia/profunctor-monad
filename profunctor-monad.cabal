@@ -16,15 +16,14 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:
-    Profunctor.Monad,
-    Profunctor.Monad.Core,
-    Profunctor.Monad.Combinators,
-    Profunctor.Monad.Contravariant
+    Profunctor.Monad
+    Profunctor.Monad.Core
+    Profunctor.Monad.Combinators
     Profunctor.Monad.Lifts
+    Profunctor.Monad.Profunctor
   build-depends:
     base >= 4.9 && < 4.10,
-    constraints,
-    profunctors
+    constraints
   default-language:    Haskell2010
 
 test-suite hashcons

@@ -8,24 +8,20 @@
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE PolyKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 module Profunctor.Monad.Combinators where
 
 import qualified Control.Applicative as A
+import Control.Arrow (Arrow)
 import qualified Control.Monad as M
 import Profunctor.Monad.Core
-import Data.Profunctor
+import Profunctor.Monad.Profunctor
 import Data.Constraint
 import Data.Constraint.Forall
 import Prelude hiding (pure)
 
 -- * Basic combinators
-
--- | Infix synonym of 'lmap'
-(=.) :: Profunctor p => (y -> x) -> p x a -> p y a
-(=.) = lmap
-
-infixl 5 =.
 
 -- | Instantiate a constraint @'ForallF' cc p@ at type @x@,
 -- yielding @cc (p x)@.
@@ -41,7 +37,7 @@ with a = case instF @cc @p @x of Sub Dict -> a
 -- | Bidirectional generalization of 'Control.Monad.replicateM'.
 replicateP
   :: forall p x a
-  .  (Profunctor p, ForallF Applicative p)
+  .  (Contravariant p, Arrow (First p), ForallF Applicative p)
   => Int -> p x a -> p [x] [a]
 replicateP = with @Applicative @p @[x] $
   let replicateP' 0 _ = A.pure []

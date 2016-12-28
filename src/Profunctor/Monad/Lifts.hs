@@ -4,7 +4,7 @@ module Profunctor.Monad.Lifts where
 
 import Control.Category as Cat (id)
 import Control.Arrow (Arrow, arr)
-import Profunctor.Monad.Contravariant
+import Profunctor.Monad.Profunctor
 
 -- |
 --

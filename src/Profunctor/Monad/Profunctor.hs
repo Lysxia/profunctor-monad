@@ -1,36 +1,47 @@
-{-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE TypeFamilies #-}
 
-module Profunctor.Monad.Contravariant
-  ( Contravariant (..)
+module Profunctor.Monad.Profunctor
+  ( Profunctor
+  , Contravariant (..)
   , (=.)
   , (=:)
   ) where
 
 import Control.Arrow (Kleisli(..), Arrow(arr))
 import Control.Category (Category, (>>>))
+import Data.Constraint.Forall
 
 infixl 5 =:, =.
+
+-- | A 'Profunctor' is a bifunctor @p :: * -> * -> *@ from the product of an
+-- arbitrary category, denoted @'First' p@, and @(->)@.
+--
+-- This is a generalization of the 'profunctors' package's @Profunctor@,
+-- where @'First' p ~ (->)@.
+--
+-- A profunctor is two functors on different domains at once, one
+-- contravariant, one covariant, and that is made clear by this definition
+-- specifying 'Contravariant' and 'Functor' separately.
+--
+type Profunctor p = (Contravariant p, ForallF Functor p)
 
 -- | Types @p :: * -> * -> *@ which are contravariant functors
 -- over their first parameter.
 --
--- Functor law:
+-- Functor laws:
 --
 -- @
--- lmap (i >>> j) p
+-- lmap id
 -- =
--- lmap i (lmap j p)
+-- id
 -- @
 --
--- If for every type @a@, @p a@ is an instance of 'Functor' (i.e., @p@ is a
--- covariant functor over its second parameter in Hask),
--- then 'lmap' should commute with 'fmap' (thus @p@ is a bifunctor):
---
 -- @
--- lmap i (fmap f p)
+-- lmap (i >>> j)
 -- =
--- fmap f (lmap i p)
+-- lmap i . lmap j
 -- @
 --
 -- If the domain @First p@ is an 'Arrow', and if for every @a@, @p a@ is an
