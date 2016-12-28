@@ -20,6 +20,7 @@ library
     Profunctor.Monad.Core,
     Profunctor.Monad.Combinators,
     Profunctor.Monad.Contravariant
+    Profunctor.Monad.Lifts
   build-depends:
     base >= 4.9 && < 4.10,
     constraints,
