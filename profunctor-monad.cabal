@@ -26,6 +26,7 @@ library
     base >= 4.9 && < 4.10,
     constraints
   default-language:    Haskell2010
+  ghc-options: -Wall -Wno-name-shadowing
 
 test-suite hashcons
   type: exitcode-stdio-1.0
@@ -39,6 +40,7 @@ test-suite hashcons
     transformers,
     profunctor-monad
   default-language: Haskell2010
+  ghc-options: -Wall -Wno-name-shadowing
 
 source-repository head
   type:     git
