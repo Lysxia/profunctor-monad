@@ -21,6 +21,7 @@ library
     Profunctor.Monad.Combinators
     Profunctor.Monad.Lifts
     Profunctor.Monad.Profunctor
+    Profunctor.Monad.Syntax
   build-depends:
     base >= 4.9 && < 4.10,
     constraints
