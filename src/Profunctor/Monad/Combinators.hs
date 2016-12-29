@@ -50,6 +50,9 @@ replicateP = with @Applicative @p @[x] $
 
 -- $rebindable Works with @RebindableSyntax@.
 
+infixl 1 >>=, >>
+infixl 4 <$>, <*>, <*, *>
+
 (<$>)
   :: forall p x a b
   .  ForallF Functor p
@@ -85,6 +88,12 @@ pure = with @Applicative @p @x A.pure
   .  ForallF Monad p
   => p x a -> (a -> p x b) -> p x b
 (>>=) = with @Monad @p @x (M.>>=)
+
+(>>)
+  :: forall p x a b
+  .  ForallF Monad p
+  => p x a -> p x b -> p x b
+(>>) = with @Monad @p @x (M.>>)
 
 return
   :: forall p x a
