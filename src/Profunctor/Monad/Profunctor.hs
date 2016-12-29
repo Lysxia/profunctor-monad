@@ -9,7 +9,7 @@ module Profunctor.Monad.Profunctor
   , (=:)
   ) where
 
-import Control.Arrow (Kleisli(..), Arrow(arr))
+import Control.Arrow (Kleisli(..), Arrow(..))
 import Control.Category (Category, (>>>))
 import Data.Constraint.Forall
 
@@ -33,31 +33,22 @@ type Profunctor p = (Contravariant p, ForallF Functor p)
 -- Functor laws:
 --
 -- @
--- lmap id
+-- 'lmap' 'id' = 'id'
+-- 'lmap' (i '>>>' j) = 'lmap' i '.' 'lmap' j
+-- @
+--
+-- If the domain @'First' p@ is an 'Arrow', and if for every @a@, the type
+-- @p a@ is an instance of 'Applicative', then a pure arrow 'arr' f should
+-- correspond to an "applicative natural transformation":
+--
+-- @
+-- 'lmap' ('arr' f) (p '<*>' q)
 -- =
--- id
+-- 'lmap' ('arr' f) p '<*>' 'lmap' ('arr' f) q
 -- @
 --
 -- @
--- lmap (i >>> j)
--- =
--- lmap i . lmap j
--- @
---
--- If the domain @First p@ is an 'Arrow', and if for every @a@, @p a@ is an
--- instance of 'Applicative', then a pure arrow 'arr f' should correspond to
--- an "applicative natural transformation":
---
--- @
--- lmap (arr f) (p <*> q)
--- =
--- lmap (arr f) p <*> lmap (arr f) q
--- @
---
--- @
--- lmap (arr f) (pure a)
--- =
--- pure a
+-- 'lmap' ('arr' f) ('pure' a) = 'pure' a
 -- @
 --
 -- The following may not be true in general, but seems to hold in practice,
@@ -65,13 +56,15 @@ type Profunctor p = (Contravariant p, ForallF Functor p)
 -- in particular that should be the case if there is also a @'Monad' (p a)@:
 --
 -- @
--- lmap (first i) (lmap (arr fst) p <*> lmap (arr snd) q)
+-- 'lmap' ('first' i) ('lmap' ('arr' 'fst') p '<*>' 'lmap' ('arr' 'snd') q)
 -- =
--- lmap (first i >>> arr fst) p <*> lmap (arr snd) q
+-- 'lmap' ('first' i '>>>' 'arr' 'fst') p '<*>' 'lmap' ('arr' 'snd') q
 -- @
 --
 class Category (First p) => Contravariant p where
+  -- | Domain of the functor.
   type First p :: * -> * -> *
+  -- | Mapping morphisms from @'First' p@ to @(->)@.
   lmap :: First p y x -> p x a -> p y a
 
 instance Contravariant (->) where

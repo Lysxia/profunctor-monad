@@ -2,22 +2,22 @@
 
 module Profunctor.Monad.Lifts where
 
-import Control.Category as Cat (id)
-import Control.Arrow (Arrow, arr)
+import qualified Control.Category as Cat
+import Control.Arrow (Arrow(..))
 import Profunctor.Monad.Profunctor
 
 -- |
 --
 -- @
--- lmap i (lifts p j)
+-- 'lmap' i ('lifts' p j)
 -- =
--- lifts (lmap i p) (i >>> j)
+-- 'lifts' ('lmap' i p) (i 'Cat.>>>' j)
 -- @
 --
 -- @
--- lifts p i <*> lifts q j
+-- 'lifts' p i '<*>' 'lifts' q j
 -- =
--- lifts (p <*> q) (i &&& j >>> uncurry ($))
+-- 'lifts' (p '<*>' q) (i '&&&' j 'Cat.>>>' 'uncurry' ('$'))
 -- @
 class Contravariant p => Lifts p where
   lifts :: p x a -> First p x a -> p x a

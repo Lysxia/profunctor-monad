@@ -26,33 +26,86 @@ import Prelude (Int, String, ($), (-))
 -- | Instantiate a constraint @'ForallF' cc p@ at type @x@,
 -- yielding @cc (p x)@.
 --
--- Usage example:
+-- === Usage
 --
--- > f :: forall p x a. (ForallF Monad p, ...) => p x a
--- > f = with @Monad @p @x $ do monadicStuff
+-- In some context with a constraint @'ForallF' 'Monad' p@ available:
+--
+-- @
+-- 'with' \@'Monad' \@p @x '$' do
+--   (...) :: p x a
+-- @
 --
 with :: forall cc p x a. ForallF cc p => (cc (p x) => a) -> a
 with a = case instF @cc @p @x of Sub Dict -> a
 
 -- | A specialization of 'with' which deduces @p@ and @x@ from its argument.
+--
+-- === Usage
+--
+-- In some context with a constraint @'ForallF' 'Monad' p@ available:
+--
+-- @
+-- 'with'' \@'Monad' '$' do
+--   (...) :: p x a
+-- @
 with' :: forall cc p x a. ForallF cc p => (cc (p x) => p x a) -> p x a
 with' = with @cc @p @x
 
--- | A specialization of 'with'' for 'Functor'.
+-- | A specialization of 'with'' for 'Functor', to avoid @TypeApplications@
+-- where this is possible.
+--
+-- === Usage
+--
+-- In some context with a constraint @'ForallF' 'Functor' p@ available:
+--
+-- @
+-- 'withFunctor' '$'
+--   (...) '<$>' (...)
+-- @
 withFunctor :: ForallF Functor p => (Functor (p x) => p x a) -> p x a
 withFunctor = with' @Functor
 
--- | A specialization of 'with'' for 'Applicative'.
+-- | A specialization of 'with'' for 'Applicative', to avoid @TypeApplications@
+-- where this is possible.
+--
+-- === Usage
+--
+-- In some context with a constraint @'ForallF' 'Applicative' p@ available:
+--
+-- @
+-- 'withApplicative' '$'
+--   (...) '<$>' (...) '<*>' (...)
+-- @
 withApplicative
   :: ForallF Applicative p => (Applicative (p x) => p x a) -> p x a
 withApplicative = with' @Applicative
 
--- | A specialization of 'with'' for 'Alternative'.
+-- | A specialization of 'with'' for 'Alternative', to avoid @TypeApplications@
+-- where this is possible.
+--
+-- === Usage
+--
+-- In some context with a constraint @'ForallF' 'Alternative' p@ available:
+--
+-- @
+-- 'withAlternative' '$'
+--   (...) '<|>' (...)
+-- @
 withAlternative
   :: ForallF Alternative p => (Alternative (p x) => p x a) -> p x a
 withAlternative = with' @Alternative
 
--- | A specialization of 'with'' for 'Monad'.
+-- | A specialization of 'with'' for 'Monad', to avoid @TypeApplications@ where
+-- this is possible.
+--
+-- === Usage
+--
+-- In some context with a constraint @'ForallF' 'Alternative' p@ available:
+--
+-- @
+-- 'withMonad' '$' do
+--   (...)
+-- @
 withMonad :: ForallF Monad p => (Monad (p x) => p x a) -> p x a
 withMonad = with' @Monad
 

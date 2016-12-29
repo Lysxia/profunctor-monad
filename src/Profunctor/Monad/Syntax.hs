@@ -1,9 +1,13 @@
 -- | Rebind syntax locally.
 --
 -- @
--- {-# LANGUAGE RebindableSyntax #-}
+-- {-\# LANGUAGE RebindableSyntax \#-}
+-- {-\# LANGUAGE RecordWildCards \#-}
 --
--- let Syntax{..} = promonadSyntax
+-- -- Qualify to avoid polluting the namespace.
+-- import qualified Profunctor.Monad.Syntax as S
+--
+-- let S.'Syntax'{..} = S.'promonad'
 -- in do
 --   ...
 -- @

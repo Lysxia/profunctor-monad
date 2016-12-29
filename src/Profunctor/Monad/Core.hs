@@ -8,13 +8,15 @@
 {-# LANGUAGE ConstraintKinds #-}
 
 module Profunctor.Monad.Core
-  ( -- * Constraint synonyms
+  (
+  -- * Constraint synonyms
+
     Functor1
   , Applicative1
   , Monad1
   , Alternative1
 
-  -- * 
+  -- * Standard type classes
 
   , Functor
   , Applicative

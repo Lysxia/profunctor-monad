@@ -1,11 +1,23 @@
 module Profunctor.Monad
-  ( module Profunctor.Monad.Core
+  (
+  -- * Constraints and standard type classes
+
+    module Profunctor.Monad.Core
+
+  -- * Contravariant functors
+
   , Contravariant (..)
   , (=.)
   , (=:)
+
+  -- * Working with quantified constraints
+
   , with
   , with'
   , withFunctor, withApplicative, withAlternative, withMonad
+
+  -- * Basic combinators
+
   , replicateP
   ) where
 
