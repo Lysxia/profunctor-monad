@@ -12,6 +12,7 @@ module Profunctor.Monad
 
   -- * Working with quantified constraints
 
+  , J
   , with
   , with'
   , withFunctor, withApplicative, withAlternative, withMonad

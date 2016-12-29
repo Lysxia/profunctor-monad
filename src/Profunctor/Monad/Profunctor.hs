@@ -7,6 +7,7 @@ module Profunctor.Monad.Profunctor
   , Contravariant (..)
   , (=.)
   , (=:)
+  , J
   ) where
 
 import Control.Arrow (Kleisli(..), Arrow(..))
@@ -86,3 +87,12 @@ instance Monad m => Contravariant (Kleisli m) where
   :: (Contravariant p, First p ~ Kleisli m)
   => (y -> m x) -> p x a -> p y a
 (=:) = lmap . Kleisli
+
+-- | A type synonym to keep type signatures DRY. 'J' for "join".
+--
+-- @
+-- J :: (* -> * -> *) -> (* -> *)
+-- join :: Monad m => m (m a) -> (m a)
+-- @
+--
+type J p a = p a a
