@@ -15,11 +15,13 @@ module Profunctor.Monad.Combinators where
 import qualified Control.Applicative as A
 import Control.Arrow (Arrow)
 import qualified Control.Monad as M
+import qualified Control.Monad.Fail as MF
 import Profunctor.Monad.Core
 import Profunctor.Monad.Profunctor
 import Data.Constraint
 import Data.Constraint.Forall
-import Prelude hiding (pure)
+import Data.List (head, tail)
+import Prelude (Int, String, ($), (-))
 
 -- * Basic combinators
 
@@ -122,3 +124,9 @@ return
   .  ForallF Monad p
   => a -> p x a
 return = with @Monad @p @x M.return
+
+fail
+  :: forall p x a
+  .  ForallF MF.MonadFail p
+  => String -> p x a
+fail = with @MF.MonadFail @p @x MF.fail
