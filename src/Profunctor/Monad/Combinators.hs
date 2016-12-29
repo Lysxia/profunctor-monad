@@ -34,6 +34,28 @@ import Prelude hiding (pure)
 with :: forall cc p x a. ForallF cc p => (cc (p x) => a) -> a
 with a = case instF @cc @p @x of Sub Dict -> a
 
+-- | A specialization of 'with' which deduces @p@ and @x@ from its argument.
+with' :: forall cc p x a. ForallF cc p => (cc (p x) => p x a) -> p x a
+with' = with @cc @p @x
+
+-- | A specialization of 'with'' for 'Functor'.
+withFunctor :: ForallF Functor p => (Functor (p x) => p x a) -> p x a
+withFunctor = with' @Functor
+
+-- | A specialization of 'with'' for 'Applicative'.
+withApplicative
+  :: ForallF Applicative p => (Applicative (p x) => p x a) -> p x a
+withApplicative = with' @Applicative
+
+-- | A specialization of 'with'' for 'Alternative'.
+withAlternative
+  :: ForallF Alternative p => (Alternative (p x) => p x a) -> p x a
+withAlternative = with' @Alternative
+
+-- | A specialization of 'with'' for 'Monad'.
+withMonad :: ForallF Monad p => (Monad (p x) => p x a) -> p x a
+withMonad = with' @Monad
+
 -- | Bidirectional generalization of 'Control.Monad.replicateM'.
 replicateP
   :: forall p x a

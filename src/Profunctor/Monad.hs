@@ -4,6 +4,8 @@ module Profunctor.Monad
   , (=.)
   , (=:)
   , with
+  , with'
+  , withFunctor, withApplicative, withAlternative, withMonad
   , replicateP
   ) where
 
