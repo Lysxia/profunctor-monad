@@ -8,10 +8,9 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE DefaultSignatures #-}
 
-import Control.Arrow (Arrow, Kleisli (..))
+import Control.Arrow (Kleisli (..))
 import Control.Applicative
 import Control.Monad.State hiding (lift)
-import Control.Monad.Trans.Maybe
 import Data.Functor.Identity
 import Data.Hashable (Hashable)
 import Data.HashMap.Lazy (HashMap)

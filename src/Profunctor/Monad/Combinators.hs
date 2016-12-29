@@ -18,8 +18,6 @@ import qualified Control.Monad as M
 import qualified Control.Monad.Fail as MF
 import Profunctor.Monad.Core
 import Profunctor.Monad.Profunctor
-import Data.Constraint
-import Data.Constraint.Forall
 import Data.List (head, tail)
 import Prelude (Int, String, ($), (-))
 

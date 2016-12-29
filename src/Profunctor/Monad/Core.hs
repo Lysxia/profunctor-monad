@@ -30,7 +30,6 @@ module Profunctor.Monad.Core
   ) where
 
 import Control.Applicative
-import Control.Monad
 
 import Data.Constraint
 import Data.Constraint.Forall
