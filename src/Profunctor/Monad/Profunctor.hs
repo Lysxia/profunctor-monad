@@ -7,11 +7,15 @@ module Profunctor.Monad.Profunctor
   , Contravariant (..)
   , (=.)
   , (=:)
+  , cofilter
   , J
   ) where
 
+import Control.Applicative (Alternative)
+import Control.Monad (guard)
 import Control.Arrow (Kleisli(..), Arrow(..))
 import Control.Category (Category, (>>>))
+import Data.Functor (($>))
 import Data.Constraint.Forall
 
 infixl 5 =:, =.
@@ -87,6 +91,11 @@ instance Monad m => Contravariant (Kleisli m) where
   :: (Contravariant p, First p ~ Kleisli m)
   => (y -> m x) -> p x a -> p y a
 (=:) = lmap . Kleisli
+
+cofilter
+  :: (Contravariant p, First p ~ Kleisli m, Alternative m)
+  => (x -> Bool) -> p x a -> p x a
+cofilter p = (=:) (\x -> guard (p x) $> x)
 
 -- | A type synonym to keep type signatures DRY. 'J' for "join".
 --

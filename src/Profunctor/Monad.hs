@@ -9,6 +9,7 @@ module Profunctor.Monad
   , Contravariant (..)
   , (=.)
   , (=:)
+  , cofilter
 
   -- * Working with quantified constraints
 
