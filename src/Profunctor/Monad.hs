@@ -6,7 +6,7 @@ module Profunctor.Monad
 
   -- * Contravariant functors
 
-  , Contravariant (..)
+  , Cofunctor (..)
   , (=.)
   , (=:)
   , cofilter

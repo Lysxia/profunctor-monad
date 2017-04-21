@@ -112,7 +112,7 @@ withMonad = with' @Monad
 -- | Bidirectional generalization of 'Control.Monad.replicateM'.
 replicateP
   :: forall p x a
-  .  (Contravariant p, Arrow (First p), ForallF Applicative p)
+  .  (Cofunctor p, Arrow (First p), ForallF Applicative p)
   => Int -> p x a -> p [x] [a]
 replicateP = with @Applicative @p @[x] $
   let replicateP' 0 _ = A.pure []

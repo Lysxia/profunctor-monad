@@ -19,7 +19,7 @@ import Profunctor.Monad.Profunctor
 -- =
 -- 'lifts' (p '<*>' q) (i '&&&' j 'Cat.>>>' 'uncurry' ('$'))
 -- @
-class Contravariant p => Lifts p where
+class Cofunctor p => Lifts p where
   lifts :: p x a -> First p x a -> p x a
 
 liftsArr

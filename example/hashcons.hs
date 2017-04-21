@@ -121,17 +121,17 @@ instance PMonadTrans ParserT where
 instance PMonadTrans PrinterT where
   lift ma = PrinterT $ \_ -> (,) "" <$> ma
 
-instance Monad m => Contravariant (ParserT m) where
+instance Monad m => Cofunctor (ParserT m) where
   type First (ParserT m) = Kleisli m
   lmap _ (ParserT p) = ParserT p
 
-instance Monad m => Contravariant (PrinterT m) where
+instance Monad m => Cofunctor (PrinterT m) where
   type First (PrinterT m) = Kleisli m
   lmap (Kleisli f) (PrinterT q) = PrinterT (f >=> q)
 
 -- Might also use a @'Functor1' p@ constraint,
 -- but that would require @UndecidableInstances@.
-class Contravariant p => IParser p where
+class Cofunctor p => IParser p where
   anyChar :: p Char Char
 
   char :: forall x. Char -> p x ()

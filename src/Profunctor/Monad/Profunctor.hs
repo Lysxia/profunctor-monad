@@ -4,7 +4,7 @@
 
 module Profunctor.Monad.Profunctor
   ( Profunctor
-  , Contravariant (..)
+  , Cofunctor (..)
   , (=.)
   , (=:)
   , cofilter
@@ -28,9 +28,9 @@ infixl 5 =:, =.
 --
 -- A profunctor is two functors on different domains at once, one
 -- contravariant, one covariant, and that is made clear by this definition
--- specifying 'Contravariant' and 'Functor' separately.
+-- specifying 'Cofunctor' and 'Functor' separately.
 --
-type Profunctor p = (Contravariant p, ForallF Functor p)
+type Profunctor p = (Cofunctor p, ForallF Functor p)
 
 -- | Types @p :: * -> * -> *@ which are contravariant functors
 -- over their first parameter.
@@ -66,34 +66,34 @@ type Profunctor p = (Contravariant p, ForallF Functor p)
 -- 'lmap' ('first' i '>>>' 'arr' 'fst') p '<*>' 'lmap' ('arr' 'snd') q
 -- @
 --
-class Category (First p) => Contravariant p where
+class Category (First p) => Cofunctor p where
   -- | Domain of the functor.
   type First p :: * -> * -> *
   -- | Mapping morphisms from @'First' p@ to @(->)@.
   lmap :: First p y x -> p x a -> p y a
 
-instance Contravariant (->) where
+instance Cofunctor (->) where
   type First (->) = (->)
   lmap f g = g . f
 
-instance Monad m => Contravariant (Kleisli m) where
+instance Monad m => Cofunctor (Kleisli m) where
   type First (Kleisli m) = Kleisli m
   lmap = (>>>)
 
 -- | Mapping with a regular function.
 (=.)
-  :: (Contravariant p, Arrow (First p))
+  :: (Cofunctor p, Arrow (First p))
   => (y -> x) -> p x a -> p y a
 (=.) = lmap . arr
 
 -- | Monadic mapping; e.g., mapping which can fail ('Maybe').
 (=:)
-  :: (Contravariant p, First p ~ Kleisli m)
+  :: (Cofunctor p, First p ~ Kleisli m)
   => (y -> m x) -> p x a -> p y a
 (=:) = lmap . Kleisli
 
 cofilter
-  :: (Contravariant p, First p ~ Kleisli m, Alternative m)
+  :: (Cofunctor p, First p ~ Kleisli m, Alternative m)
   => (x -> Bool) -> p x a -> p x a
 cofilter p = (=:) (\x -> guard (p x) $> x)
 
