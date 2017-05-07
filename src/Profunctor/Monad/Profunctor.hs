@@ -6,6 +6,8 @@ module Profunctor.Monad.Profunctor
 
 import Data.Profunctor
 
+infixl 5 =.
+
 (=.) :: Profunctor p => (y -> x) -> p x a -> p y a
 (=.) = lmap
 
