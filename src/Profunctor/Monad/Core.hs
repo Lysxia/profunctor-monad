@@ -10,10 +10,14 @@ module Profunctor.Monad.Core
   (
   -- * Constraint synonyms
 
+  -- | The quantified super-class instances are explicitly added, since the type
+  -- system can not deduce them.
+
     Functor1
   , Applicative1
   , Monad1
   , Alternative1
+  , MonadPlus1
 
   -- * Standard type classes
 
@@ -21,6 +25,7 @@ module Profunctor.Monad.Core
   , Applicative
   , Monad
   , Alternative
+  , MonadPlus
 
   -- * Constraints
 
@@ -31,6 +36,7 @@ module Profunctor.Monad.Core
   ) where
 
 import Control.Applicative
+import Control.Monad
 
 import Data.Constraint
 import Data.Constraint.Forall
@@ -43,23 +49,19 @@ type Functor1 p = ForallF Functor p
 -- | Constraint equivalent to
 --
 -- > forall a. Applicative (p a)
---
--- The quantified super-class instance is
--- explicitly added, since the type system currently can not deduce it.
 type Applicative1 p = (Functor1 p, ForallF Applicative p)
 
 -- | Constraint equivalent to
 --
 -- > forall a. Monad (p a)
---
--- The quantified super-class instance is
--- explicitly added, since the type system currently can not deduce it.
 type Monad1 p = (Applicative1 p, ForallF Monad p)
 
 -- | Constraint equivalent to
 --
 -- > forall a. Alternative (p a)
---
--- The quantified super-class instance is
--- explicitly added, since the type system currently can not deduce it.
 type Alternative1 p = (Applicative1 p, ForallF Alternative p)
+
+-- | Constraint equivalent to
+--
+-- > forall a. MonadPlus (p a)
+type MonadPlus1 p = (Monad1 p, Alternative1 p, ForallF MonadPlus p)
