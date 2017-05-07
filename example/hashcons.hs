@@ -18,7 +18,7 @@ import qualified Data.HashMap.Lazy as H
 import GHC.Generics
 
 import Profunctor.Monad hiding ((=.))
-import Profunctor.Monad
+import Profunctor.Monad.Cofunctor
 
 -- * Hashconsing
 
