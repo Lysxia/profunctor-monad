@@ -8,7 +8,6 @@ module Profunctor.Monad.Cofunctor
   , (=.)
   , (=:)
   , cofilter
-  , J
   ) where
 
 import Control.Applicative (Alternative)
@@ -96,12 +95,3 @@ cofilter
   :: (Cofunctor p, First p ~ Kleisli m, Alternative m)
   => (x -> Bool) -> p x a -> p x a
 cofilter p = (=:) (\x -> guard (p x) $> x)
-
--- | A type synonym to keep type signatures DRY. 'J' for "join".
---
--- @
--- J :: (* -> * -> *) -> (* -> *)
--- join :: Monad m => m (m a) -> (m a)
--- @
---
-type J p a = p a a

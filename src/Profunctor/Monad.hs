@@ -5,7 +5,7 @@ module Profunctor.Monad
     module Profunctor.Monad.Core
   , Profunctor (..)
   , (=.)
-
+  , J
 
   -- * Working with quantified constraints
 
