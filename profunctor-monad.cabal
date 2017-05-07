@@ -17,6 +17,7 @@ library
   hs-source-dirs:      src
   exposed-modules:
     Profunctor.Monad
+    Profunctor.Monad.Cofunctor
     Profunctor.Monad.Core
     Profunctor.Monad.Combinators
     Profunctor.Monad.Lifts
@@ -24,7 +25,8 @@ library
     Profunctor.Monad.Syntax
   build-depends:
     base >= 4.9 && < 4.10,
-    constraints
+    constraints,
+    profunctors
   default-language:    Haskell2010
   ghc-options: -Wall -Wno-name-shadowing
 

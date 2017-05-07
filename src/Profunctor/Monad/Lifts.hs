@@ -4,7 +4,7 @@ module Profunctor.Monad.Lifts where
 
 import qualified Control.Category as Cat
 import Control.Arrow (Arrow(..))
-import Profunctor.Monad.Profunctor
+import Profunctor.Monad.Cofunctor
 
 -- |
 --

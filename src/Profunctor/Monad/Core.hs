@@ -1,8 +1,7 @@
 {- |
   Reexports important type classes from
   <https://hackage.haskell.org/package/base base>,
-  <https://hackage.haskell.org/package/constraints constraints>,
-  <https://hackage.haskell.org/package/profunctors profunctors>.
+  <https://hackage.haskell.org/package/constraints constraints>.
  -}
 
 {-# LANGUAGE ConstraintKinds #-}
