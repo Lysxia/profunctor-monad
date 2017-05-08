@@ -12,13 +12,10 @@
 
 module Profunctor.Monad.Combinators where
 
-import qualified Control.Applicative as A
-import qualified Control.Monad as M
-import qualified Control.Monad.Fail as MF
+import Control.Applicative
 import Profunctor.Monad.Core
 import Profunctor.Monad.Profunctor
 import Data.List (head, tail)
-import Prelude (Int, String, ($), (-))
 
 -- * Basic combinators
 
@@ -113,70 +110,70 @@ replicateP
   :: forall p x a
   .  (Profunctor p, ForallF Applicative p)
   => Int -> p x a -> p [x] [a]
-replicateP = with @Applicative @p @[x] $
-  let replicateP' 0 _ = A.pure []
-      replicateP' n p = (:)
-        A.<$> head =. p
-        A.<*> tail =. replicateP (n - 1) p
-  in replicateP'
+replicateP = with @Applicative @p @[x] replicateP_
 
--- * Rebound syntax
+replicateP_
+  :: (Profunctor p, Applicative (p [x]))
+  => Int -> p x a -> p [x] [a]
+replicateP_ 0 _ = pure []
+replicateP_ n p = (:)
+  <$> head =. p
+  <*> tail =. replicateP_ (n - 1) p
 
--- $rebindable Works with @RebindableSyntax@.
-
-infixl 1 >>=, >>
-infixl 4 <$>, <*>, <*, *>
-
-(<$>)
-  :: forall p x a b
-  .  ForallF Functor p
-  => (a -> b) -> p x a -> p x b
-(<$>) = with @Functor @p @x (A.<$>)
-
-(<*>)
-  :: forall p x a b
-  .  ForallF Applicative p
-  => p x (a -> b) -> p x a -> p x b
-(<*>) = with @Applicative @p @x (A.<*>)
-
-pure
+manyP
   :: forall p x a
-  .  ForallF Applicative p
-  => a -> p x a
-pure = with @Applicative @p @x A.pure
+  .  (Profunctor p, ForallF Alternative p)
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p [x] [a]
+manyP = with @Alternative @p @[x] manyP_
 
-(<*)
-  :: forall p x a b
-  .  ForallF Applicative p
-  => p x a -> p x b -> p x a
-(<*) = with @Applicative @p @x (A.<*)
+manyP_
+  :: (Profunctor p, Alternative (p [x]))
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p [x] [a]
+manyP_ assert p = someP_ assert p <|> pure []
 
-(*>)
-  :: forall p x a b
-  .  ForallF Applicative p
-  => p x a -> p x b -> p x b
-(*>) = with @Applicative @p @x (A.*>)
-
-(>>=)
-  :: forall p x a b
-  .  ForallF Monad p
-  => p x a -> (a -> p x b) -> p x b
-(>>=) = with @Monad @p @x (M.>>=)
-
-(>>)
-  :: forall p x a b
-  .  ForallF Monad p
-  => p x a -> p x b -> p x b
-(>>) = with @Monad @p @x (M.>>)
-
-return
+someP
   :: forall p x a
-  .  ForallF Monad p
-  => a -> p x a
-return = with @Monad @p @x M.return
+  .  (Profunctor p, ForallF Alternative p)
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p [x] [a]
+someP = with @Alternative @p @[x] someP_
 
-fail
-  :: forall p x a
-  .  ForallF MF.MonadFail p
-  => String -> p x a
-fail = with @MF.MonadFail @p @x MF.fail
+someP_
+  :: (Profunctor p, Alternative (p [x]))
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p [x] [a]
+someP_ assert p =
+  assert (not . null) *> liftA2 (:) (head =. p) (tail =. manyP_ assert p)
+
+sepByP
+  :: forall p x a b
+  .  (Profunctor p, ForallF Alternative p)
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p () b -> p [x] [a]
+sepByP = with @Alternative @p @[x] sepByP_
+
+sepByP_
+  :: (Profunctor p, Alternative (p [x]))
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p () b -> p [x] [a]
+sepByP_ assert p s =
+  (assert (not . null) *> sepBy1P_ assert p s) <|> pure []
+
+sepBy1P
+  :: forall p x a b
+  .  (Profunctor p, ForallF Alternative p)
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p () b -> p [x] [a]
+sepBy1P = with @Alternative @p @[x] sepBy1P_
+
+sepBy1P_
+  :: (Profunctor p, Alternative (p [x]))
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p () b -> p [x] [a]
+sepBy1P_ assert p s = liftA2 (:) (head =. p) (tail =. preByP_ assert p s)
+
+preByP
+  :: forall p x a b
+  .  (Profunctor p, ForallF Alternative p)
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p () b -> p [x] [a]
+preByP = with @Alternative @p @[x] preByP_
+
+preByP_
+  :: (Profunctor p, Alternative (p [x]))
+  => (([x] -> Bool) -> p [x] ()) -> p x a -> p () b -> p [x] [a]
+preByP_ assert p s =
+  (assert (not . null) *> const () =. s *> sepBy1P_ assert p s) <|> pure []

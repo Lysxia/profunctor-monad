@@ -18,7 +18,7 @@ module Profunctor.Monad.Syntax where
 
 import Data.Constraint.Forall (ForallF)
 import Control.Monad.Fail (MonadFail)
-import qualified Profunctor.Monad.Combinators as PM
+import qualified Profunctor.Monad.Monad as PM
 import Prelude (String, Functor, Applicative, Monad)
 
 data Syntax = Syntax

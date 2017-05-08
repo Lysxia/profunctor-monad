@@ -16,6 +16,11 @@ module Profunctor.Monad
   -- * Miscellaneous combinators
 
   , replicateP
+  , manyP
+  , someP
+  , sepByP
+  , sepBy1P
+  , preByP
 
   ) where
 
