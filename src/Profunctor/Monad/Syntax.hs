@@ -12,6 +12,7 @@
 --   ...
 -- @
 
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE RankNTypes #-}
 
 module Profunctor.Monad.Syntax where

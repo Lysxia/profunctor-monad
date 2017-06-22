@@ -5,6 +5,7 @@
  -}
 
 {-# LANGUAGE ConstraintKinds #-}
+{-# LANGUAGE FlexibleContexts #-}
 
 module Profunctor.Monad.Core
   (
