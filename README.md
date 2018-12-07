@@ -1,8 +1,14 @@
 Bidirectional Programming with Monadic Profunctors
 ==================================================
 
+This package provides tools to work with *monadic profunctors*:
+types that are both monads and profunctors.
+
 Applications
 ------------
+
+Currently known instances of monadic profunctors are certain types of
+bidirectional programs, i.e., programs that have "invertible" interpretations.
 
 - `attoparsec` (parsing) wrapper: [`unparse-attoparsec`](https://github.com/Lysxia/unparse-attoparsec)
 - `QuickCheck` (random generation) wrapper: [`gap`](https://github.com/Lysxia/gap)
@@ -12,11 +18,13 @@ See also
 --------
 
 - [`codec`](https://hackage.haskell.org/package/codec) for a general
-  monadic profunctor for bidirectional programming, used with
-  `aeson` (JSON) and `binary` (serialization).
+  monadic profunctor for bidirectional programming, has implementations for
+  `aeson` and `binary`. The idea of monadic profunctors first came from this
+  package.
 
-### Other kinds of bidirectional programming
+### More bidirectional programming in Haskell
 
+- [`lens`](https://hackage.haskell.org/package/lens)
 - [`boomerang`](https://hackage.haskell.org/package/boomerang)
 - [`roundtrip`](https://hackage.haskell.org/package/roundtrip)
 
