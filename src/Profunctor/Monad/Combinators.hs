@@ -1,5 +1,5 @@
 {- |
-  Combinators for monadic profunctors.
+  Combinators for monadic profunctors using 'ForallF' to model quantified constraints
  -}
 
 {-# LANGUAGE ScopedTypeVariables #-}

@@ -17,6 +17,8 @@ library
   hs-source-dirs:      src
   exposed-modules:
     Profunctor.Monad
+    Profunctor.Monad.Partial
+    Profunctor.Monad.NewCombinators
     Profunctor.Monad.Cofunctor
     Profunctor.Monad.Core
     Profunctor.Monad.Combinators
