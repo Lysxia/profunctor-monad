@@ -22,6 +22,7 @@ library
     Profunctor.Monad.Combinators
     Profunctor.Monad.Lifts
     Profunctor.Monad.Monad
+    Profunctor.Monad.MonadCoAction
     Profunctor.Monad.Profunctor
     Profunctor.Monad.Syntax
   build-depends:
