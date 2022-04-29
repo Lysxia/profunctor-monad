@@ -26,7 +26,7 @@ library
     Profunctor.Monad.Profunctor
     Profunctor.Monad.Syntax
   build-depends:
-    base >= 4.9 && < 4.13,
+    base >= 4.9 && < 4.17,
     constraints,
     profunctors
   default-language:    Haskell2010
