@@ -1,6 +1,5 @@
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module Profunctor.Monad.Cofunctor
@@ -9,8 +8,6 @@ module Profunctor.Monad.Cofunctor
   , (=.)
   , (=:)
   , cofilter
-  , coAct
-  , internaliseMaybe
   ) where
 
 import Control.Applicative (Alternative)
@@ -98,15 +95,3 @@ cofilter
   :: (Cofunctor p, First p ~ Kleisli m, Alternative m)
   => (x -> Bool) -> p x a -> p x a
 cofilter p = (=:) (\x -> guard (p x) $> x)
-
--- | A right monad action on the cofunctor part of a profunctor
-class (Cofunctor p, Monad m) => MonadCoAction m p where
-  coAct :: p u v -> p (m u) v
-
--- | 'coAct' with the Monad specialised to maybe as used in
---   "Composing Bidirectional Programs Monadically".
-internaliseMaybe
-  :: MonadCoAction Maybe p
-  => p u v
-  -> p (Maybe u) v
-internaliseMaybe = coAct
