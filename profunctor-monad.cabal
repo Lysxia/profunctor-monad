@@ -6,7 +6,7 @@ description:
 homepage:            https://github.com/Lysxia/profunctor-monad
 license:             MIT
 license-file:        LICENSE
-author:              Li-yao Xia
+author:              Li-yao Xia, Samantha Frohlich, Dominic Orchard, Meng Wang
 maintainer:          lysxia@gmail.com
 category:            Control
 build-type:          Simple
