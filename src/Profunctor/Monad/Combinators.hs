@@ -15,7 +15,6 @@ module Profunctor.Monad.Combinators where
 import Control.Applicative
 import Profunctor.Monad.Core
 import Profunctor.Monad.Profunctor
-import Data.List (head, tail)
 
 -- * Basic combinators
 
