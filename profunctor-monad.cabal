@@ -1,5 +1,5 @@
 name:                profunctor-monad
-version:             0.1.0.0
+version:             0.2.0.0
 synopsis:            Monadic bidirectional programming
 description:
   Applicative and monadic interface for bidirectional programming.
